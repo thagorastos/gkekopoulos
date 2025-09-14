@@ -1,0 +1,38 @@
+.para1{font-size: 0; text-align:center; padding-bottom:11px; margin-top:0px; padding-top:0px;}
+.para2{font-size: 0; text-align:left; padding-bottom:12px; margin-top:0px; padding-top:0px;}
+.Style3{font-family:  'MuktaMahee Regular', 'Mukta Mahee' ;
+ font-size: 20px; 
+ font-weight:700; 
+ letter-spacing: 0.06em; 
+ word-wrap: break-word;}
+.Style4{font-family:  'MuktaMahee Regular', 'Mukta Mahee' ;
+ font-size: 20px; 
+ font-weight:700; 
+ margin:0;
+ letter-spacing: 0.06em; 
+ word-wrap: break-word;}
+.Style5{font-family:  'MuktaMahee Regular', 'Mukta Mahee' ;
+ font-size: 20px; 
+ font-weight:normal; 
+ letter-spacing: 0.06em; 
+ word-wrap: break-word;}
+.Style6{font-family:  'MuktaMahee Regular', 'Mukta Mahee' ;
+ font-size: 20px; 
+ font-weight:normal; 
+ margin:0;
+ letter-spacing: 0.06em; 
+ word-wrap: break-word;}
+.Style7{font-family:  'MuktaMahee Regular', 'Mukta Mahee' ;
+ font-size: 20px; 
+ font-weight:normal; 
+ font-style: italic;
+ letter-spacing: 0.06em; 
+ word-wrap: break-word;}
+a.outerlink{text-decoration:none}
+.animhidden{opacity: 0}
+.animvisible{opacity: 1}
+div.animated{height: 100%;width: 100%;}
+div.ew-animation-effect{height: 100%;width: 100%;}
+.ew-shape-border{top:0;left:0;height:100%;width:100%;position:absolute;overflow:visible;pointer-events:none;}
+.ew-sb-hidden{display:none}
+.ew-sb-pinned{position: fixed;z-index: 100000 !important;}
