@@ -20,8 +20,6 @@
      document.write(unescape("%3Cscript src='ew_js/jquery.min.js'%3E%3C/script%3E"));
     }
     </script>
-    <!-- hCaptcha script -->
-    <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta+Mahee&display=swap">
     <style>
     	form.ew_custom_contact_1 label {color:#000000;font-family:Arial;font-size:12px }
@@ -140,11 +138,6 @@
     		background-color: #005a8f;
     	}
     	
-    	/* hCaptcha styling */
-    	.h-captcha {
-    		margin: 15px 0;
-    	}
-    	
     	/* High contrast mode support */
     	@media (prefers-contrast: high) {
     		#navmenu_menu3 ul li a {
@@ -227,12 +220,8 @@
                                     <span class="error-message" id="message-error" aria-live="polite"></span>
                                 </p>
                                 
-                                <!-- hCaptcha widget -->
-                                <div class="h-captcha" data-sitekey="7fe715a1-151f-4c63-b497-bd971974df05" data-callback="onHCaptchaSuccess"></div>
-                                <span class="error-message" id="captcha-error" aria-live="polite"></span>
-                                
                                 <p>
-                                    <button type="submit" id="submit-button" disabled>
+                                    <button type="submit">
                                         Submit
                                     </button>
                                 </p>
@@ -326,16 +315,6 @@
             `;
             document.head.appendChild(style);
             
-            // Store hCaptcha response token
-            let hCaptchaResponse = null;
-            
-            // Function called when hCaptcha is successfully completed
-            window.onHCaptchaSuccess = function(token) {
-                hCaptchaResponse = token;
-                document.getElementById('captcha-error').textContent = '';
-                document.getElementById('submit-button').disabled = false;
-            };
-            
             // Enhanced form validation
             const form = document.getElementById('form');
             if (form) {
@@ -371,36 +350,19 @@
                         }
                     }
                     
-                    // Validate hCaptcha
-                    const captchaError = document.getElementById('captcha-error');
-                    if (!hCaptchaResponse) {
-                        isValid = false;
-                        if (captchaError) {
-                            captchaError.textContent = 'Please complete the captcha verification';
-                        }
-                    } else {
-                        if (captchaError) {
-                            captchaError.textContent = '';
-                        }
-                    }
-                    
                     if (!isValid) {
                         e.preventDefault();
                         // Focus on first error
                         const firstError = form.querySelector('.error');
                         if (firstError) {
                             firstError.focus();
-                        } else if (!hCaptchaResponse) {
-                            // If the only error is the captcha, focus on the captcha widget
-                            document.getElementById('captcha-error').focus();
                         }
                     } else {
                         // Show success message after successful submission
                         e.preventDefault();
                         
-                        // Add hCaptcha response to form data
+                        // Submit form via AJAX to Basin
                         const formData = new FormData(form);
-                        formData.append('h-captcha-response', hCaptchaResponse);
                         
                         fetch(form.action, {
                             method: 'POST',
@@ -411,10 +373,6 @@
                                 // Show success message
                                 document.getElementById('form-success').classList.remove('hidden');
                                 form.reset();
-                                
-                                // Reset hCaptcha
-                                hCaptchaResponse = null;
-                                document.getElementById('submit-button').disabled = true;
                                 
                                 // Focus on success message for screen readers
                                 document.getElementById('form-success').focus();
