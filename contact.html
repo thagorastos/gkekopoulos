@@ -20,29 +20,7 @@
      document.write(unescape("%3Cscript src='ew_js/jquery.min.js'%3E%3C/script%3E"));
     }
     </script>
-    <script src="ew_js/ew_contactform_simple.js"></script>
-    <link rel="stylesheet" href="ew_css/ew_contactform.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta+Mahee&display=swap">
-    <script>
-    	 $(window).ready(function() {
-    	$('#form_1').simpleContactForm (
-    	{
-    	url : "ew_PHP/ew_contactform.php",
-    	type: "POST",  
-    	subject : "New message from your website",    
-    	clearAfterSend : true,	 			
-    	errorClass : "error",								
-    	success : function() {
-    	// Replace alert with accessible success message
-    	$('#form-success').removeClass('hidden').attr('aria-live', 'polite').focus();
-    	// Also show alert for backward compatibility
-    	alert('Your message has been sent!');
-    	}
-    		
-    });
-    
-     });
-    </script>
     <style>
     	form.ew_custom_contact_1 label {color:#000000;font-family:Arial;font-size:12px }
     	.required-field::after { content: " *"; color: #c00; }
@@ -73,7 +51,7 @@
     	}
     	
     	/* Focus styles for accessibility */
-    	a:focus, button:focus, input:focus, textarea:focus {
+    	a:focus, button:focus, input:focus, textarea:focus, select:focus {
     		outline: 2px solid #0075B9;
     		outline-offset: 2px;
     	}
@@ -97,7 +75,7 @@
     		background-color: #FFFEFE;
     	}
     	#shape_1_pos{top:513px;left:25px;width:948px;position:absolute;height:632px;z-index:1;}
-    
+
     	#shape_2_pos{top:366px;left:86px;width:842px;position:absolute;z-index:2;height:125px;}
     	#shape_2{width:100%;height:100%;min-height:125px;}
     	#navmenu_menu3 ul > li > a{width:auto;}
@@ -139,7 +117,8 @@
     	form.ew_custom_contact_1 input[type="text"],
     	form.ew_custom_contact_1 input[type="tel"],
     	form.ew_custom_contact_1 input[type="email"],
-    	form.ew_custom_contact_1 textarea {
+    	form.ew_custom_contact_1 textarea,
+    	form.ew_custom_contact_1 select {
     		width: 100%;
     		padding: 8px;
     		border: 1px solid #ccc;
@@ -201,7 +180,7 @@
                     <div id="shape_1_pos">
                         <div id="shape_1" class="shape_1">
                             <!--948-->
-                            <form class="ew_cf ew_custom_contact_1" id="form_1" aria-labelledby="form-heading">
+                            <form action="https://usebasin.com/f/95dfc38d7700" method="POST" enctype="multipart/form-data" id="form" class="ew_cf ew_custom_contact_1" aria-labelledby="form-heading">
                                 <div id="form-success" class="hidden" tabindex="-1">
                                     Thank you! Your message has been sent successfully. We'll get back to you soon.
                                 </div>
@@ -210,26 +189,36 @@
                                 
                                 <p style="margin-top:0px">
                                     <label for="contact_name" class="required-field">Name:</label>
-                                    <input id="contact_name" type="text" class="required" aria-required="true" required />
+                                    <input id="contact_name" name="name" type="text" class="required" aria-required="true" required />
                                     <span class="error-message" id="name-error" aria-live="polite"></span>
                                 </p>
                                 <p>
                                     <label for="contact_phone">Phone:</label>
-                                    <input id="contact_phone" type="tel" aria-describedby="phone-help" />
+                                    <input id="contact_phone" name="phone" type="tel" aria-describedby="phone-help" />
                                     <span id="phone-help" class="visually-hidden">Optional phone number</span>
                                 </p>
                                 <p>
                                     <label for="contact_email" class="required-field">Email:</label>
-                                    <input id="contact_email" type="email" class="email" aria-required="true" required />
+                                    <input id="contact_email" name="email" type="email" class="email" aria-required="true" required />
                                     <span class="error-message" id="email-error" aria-live="polite"></span>
                                 </p>
                                 <p>
+                                    <label for="contact_referral">How did you hear about us?</label>
+                                    <select id="contact_referral" name="referral_source">
+                                        <option value="">Please select...</option>
+                                        <option value="Search Engine">Search Engine (Google, Bing, etc.)</option>
+                                        <option value="Social Media">Social Media (Instagram, Facebook, etc.)</option>
+                                        <option value="Friend/Word of Mouth">Friend/Word of Mouth</option>
+                                        <option value="Previous Client">Previous Client</option>
+                                        <option value="Wedding Vendor">Wedding Vendor/Planner</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </p>
+                                <p>
                                     <label for="contact_msg" class="required-field">Message:</label>
-                                    <textarea id="contact_msg" class="required" aria-required="true" required></textarea>
+                                    <textarea id="contact_msg" name="message" class="required" aria-required="true" required></textarea>
                                     <span class="error-message" id="message-error" aria-live="polite"></span>
                                 </p>
-                                <label style="display:none" for="er">*er:</label>
-                                <input value="gkekon@gmail.com" type="hidden" id="er" />
                                 
                                 <p>
                                     <button type="submit">
@@ -327,7 +316,7 @@
             document.head.appendChild(style);
             
             // Enhanced form validation
-            const form = document.getElementById('form_1');
+            const form = document.getElementById('form');
             if (form) {
                 form.addEventListener('submit', function(e) {
                     let isValid = true;
@@ -368,6 +357,32 @@
                         if (firstError) {
                             firstError.focus();
                         }
+                    } else {
+                        // Show success message after successful submission
+                        e.preventDefault();
+                        
+                        // Submit form via AJAX to Basin
+                        const formData = new FormData(form);
+                        
+                        fetch(form.action, {
+                            method: 'POST',
+                            body: formData
+                        })
+                        .then(response => {
+                            if (response.ok) {
+                                // Show success message
+                                document.getElementById('form-success').classList.remove('hidden');
+                                form.reset();
+                                
+                                // Focus on success message for screen readers
+                                document.getElementById('form-success').focus();
+                            } else {
+                                alert('There was an error submitting the form. Please try again.');
+                            }
+                        })
+                        .catch(error => {
+                            alert('There was an error submitting the form. Please try again.');
+                        });
                     }
                 });
             }
